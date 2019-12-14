@@ -108,7 +108,6 @@ function TimeConverterApp() {
       </form>
 
       <div className="content is-small">
-        {/* <p className="subtitle is-small">Result</p> */}
         <ResultRow label={localTimeZone} result={dateInLocal} />
         <ResultRow label={"UTC"} result={dateInUtc} />
         <ResultRow label={"Unix"} result={unixTimestamp} />
