@@ -47,14 +47,29 @@ function TimeConverterApp() {
     DATE: "date",
     OBJECT_ID: "objectid"
   };
-  const [values, setValues] = useState({
+  const initState = {
     inputValue: "",
     selectedType: VALUE_TYPES.UNIX_TIME
-  });
+  };
+
+  const [values, setValues] = useState(initState);
 
   const handleInputChange = e => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    // const { name, value } = e.target;
+    // setValues({ ...values, [name]: value });
+    console.log(1);
+  };
+
+  const handleReset = e => {
+    e.preventDefault();
+    setValues(initState);
+    console.log(2);
   };
 
   return (
@@ -64,6 +79,7 @@ function TimeConverterApp() {
         selectedType={values.selectedType}
         handleInputChange={handleInputChange}
       />
+      <ButtonGroup handleSubmit={handleSubmit} handleReset={handleReset} />
     </form>
   );
 }
