@@ -1,12 +1,8 @@
 import React from "react";
 
-export const ResultRow = ({
-  label,
-  result,
-  placeholder = "Input is emtpy or invalid"
-}) => (
+export const ResultRow = ({ label, result }) => (
   <li>
     <strong>{label + ": "}</strong>
-    <span>{result ? result : placeholder}</span>
+    <span>{result}</span>
   </li>
 );

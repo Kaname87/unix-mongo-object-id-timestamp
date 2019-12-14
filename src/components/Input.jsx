@@ -6,7 +6,12 @@ const VALUE_TYPES = {
   OBJECT_ID: "objectid"
 };
 
-const InputText = ({ inputValue, selectedType, handleInputChange }) => {
+const InputText = ({
+  isInvalidInput,
+  inputValue,
+  selectedType,
+  handleInputChange
+}) => {
   function setPlaceholder(type) {
     switch (type) {
       case VALUE_TYPES.UNIX_TIME:
@@ -26,13 +31,20 @@ const InputText = ({ inputValue, selectedType, handleInputChange }) => {
         {/* <label className="label">Value for converting</label> */}
         <div className="control">
           <input
-            className="input is-small"
+            className={
+              isInvalidInput ? "input is-small is-danger" : "input is-small"
+            }
             name="inputValue"
             type="text"
             value={inputValue}
             onChange={handleInputChange}
             placeholder={setPlaceholder(selectedType)}
           />
+          {isInvalidInput ? (
+            <p className="help is-danger">This input is invalid</p>
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <div className="field">
