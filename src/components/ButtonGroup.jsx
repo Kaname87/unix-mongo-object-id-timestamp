@@ -1,24 +1,26 @@
 import React from "react";
 
 export const ButtonGroup = ({ handleSubmit, handleReset }) => (
-  <div id="buttonGroup">
-    <p>
+  <div className="field is-grouped">
+    <div className="control">
       <button
         onClick={handleSubmit}
         id="submit"
         type="submit"
-        className="btn btn-primary"
+        className="button is-primary"
       >
         Convert
       </button>
+    </div>
+    <div className="control">
       <button
         onClick={handleReset}
         id="reset"
         type="reset"
-        className="btn btn-warning"
+        className="button is-light"
       >
         Reset
       </button>
-    </p>
+    </div>
   </div>
 );

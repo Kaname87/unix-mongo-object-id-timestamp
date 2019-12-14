@@ -22,22 +22,33 @@ const InputText = ({ inputValue, selectedType, handleInputChange }) => {
 
   return (
     <Fragment>
-      <input
-        name="inputValue"
-        type="text"
-        value={inputValue}
-        onChange={handleInputChange}
-        placeholder={setPlaceholder(selectedType)}
-      />
-      <select
-        name="selectedType"
-        value={selectedType}
-        onChange={handleInputChange}
-      >
-        <option value={VALUE_TYPES.UNIX_TIME}>Unix Time</option>
-        <option value={VALUE_TYPES.DATE}>Date in any format</option>
-        <option value={VALUE_TYPES.OBJECT_ID}>Mongo Object Id</option>
-      </select>
+      <div className="field">
+        {/* <label className="label">Value for converting</label> */}
+        <div className="control">
+          <input
+            className="input is-small"
+            name="inputValue"
+            type="text"
+            value={inputValue}
+            onChange={handleInputChange}
+            placeholder={setPlaceholder(selectedType)}
+          />
+        </div>
+      </div>
+      <div className="field">
+        {/* <label className="label">Value Type</label> */}
+        <div className="select is-small">
+          <select
+            name="selectedType"
+            value={selectedType}
+            onChange={handleInputChange}
+          >
+            <option value={VALUE_TYPES.UNIX_TIME}>Unix Time</option>
+            <option value={VALUE_TYPES.DATE}>Date in any format</option>
+            <option value={VALUE_TYPES.OBJECT_ID}>Mongo Object Id</option>
+          </select>
+        </div>
+      </div>
     </Fragment>
   );
 };

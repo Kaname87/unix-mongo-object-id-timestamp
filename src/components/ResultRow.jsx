@@ -2,12 +2,11 @@ import React from "react";
 
 export const ResultRow = ({
   label,
-  className,
   result,
   placeholder = "Input is emtpy or invalid"
 }) => (
-  <p>
+  <li>
     <strong>{label + ": "}</strong>
-    <span className={className}>{result ? result : placeholder}</span>
-  </p>
+    <span>{result ? result : placeholder}</span>
+  </li>
 );

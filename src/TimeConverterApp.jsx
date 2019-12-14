@@ -10,7 +10,6 @@ import {
 } from "./timeUtils";
 
 import { ResultRow } from "./components/ResultRow";
-// import { ResultArea } from "./components/ResultArea";
 import { ButtonGroup } from "./components/ButtonGroup";
 
 import InputText from "./components/Input";
@@ -92,8 +91,9 @@ function TimeConverterApp() {
     result: { dateInLocal, dateInUtc, unixTimestamp, objectId }
   } = values;
   return (
-    <div>
-      <form id="convertDateForm" className="form-inline">
+    <div className="section">
+      <h1 className="subtitle">Time Converter</h1>
+      <form className="content">
         <InputText
           inputValue={inputValue}
           selectedType={selectedType}
@@ -102,18 +102,16 @@ function TimeConverterApp() {
         <ButtonGroup handleSubmit={handleSubmit} handleReset={handleReset} />
       </form>
 
-      <ResultRow
-        label={localTimeZone}
-        className="cleanDate"
-        result={dateInLocal}
-      />
-      <ResultRow label={"UTC"} className="cleanDate" result={dateInUtc} />
-      <ResultRow label={"Unix"} className="cleanDate" result={unixTimestamp} />
-      <ResultRow
-        label={"Mongo Obect Id"}
-        className="cleanDate"
-        result={objectId ? formatMongoObjectId(objectId) : ""}
-      />
+      <div className="content is-small">
+        <p className="subtitle is-small">Result</p>
+        <ResultRow label={localTimeZone} result={dateInLocal} />
+        <ResultRow label={"UTC"} result={dateInUtc} />
+        <ResultRow label={"Unix"} result={unixTimestamp} />
+        <ResultRow
+          label={"Mongo"}
+          result={objectId ? formatMongoObjectId(objectId) : ""}
+        />
+      </div>
     </div>
   );
 }
