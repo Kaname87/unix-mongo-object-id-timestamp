@@ -2,9 +2,8 @@ import 'datejs'
 import { determine } from 'jstz'
 import moment from 'moment'
 
-const DATE_FORMAT = 'MMM. DD, YYYY HH:mm:ss'
+const DATE_FORMAT = 'YYYY/MM/DD HH:mm:ss'
 
-// export const timezoneName = determine().name()
 export const getTimezoneName = () => determine().name()
 
 export const getDate = (timestamp) => new Date(timestamp * 1000)
