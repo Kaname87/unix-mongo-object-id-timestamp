@@ -35,8 +35,8 @@ function TimeConverterApp() {
     selectedType: VALUE_TYPES.UNIX_TIME,
     localTimeZone: getTimezoneName(),
     result: {
-      dateLocal: "",
-      dateUtc: "",
+      dateInLocal: "",
+      dateInUtc: "",
       unixTimestamp: "",
       objectId: ""
     }
@@ -68,12 +68,11 @@ function TimeConverterApp() {
   const handleSubmit = e => {
     e.preventDefault();
     const { inputValue, selectedType } = values;
-
     const unixTimestamp = getTimestamp(inputValue, selectedType);
-    const dateLocal = cleanDate(unixTimestamp);
     const result = {
       unixTimestamp,
-      dateLocal
+      dateInLocal: cleanDate(unixTimestamp),
+      dateInUtc: cleanDateUtc(unixTimestamp)
     };
     setValues({ ...values, result });
   };
@@ -87,7 +86,7 @@ function TimeConverterApp() {
     inputValue,
     selectedType,
     localTimeZone,
-    result: { unixTimestamp, dateLocal }
+    result: { dateInLocal, dateInUtc, unixTimestamp }
   } = values;
   return (
     <div>
@@ -103,11 +102,17 @@ function TimeConverterApp() {
       <ResultRow
         label={localTimeZone}
         className="cleanDate"
-        result={dateLocal}
+        result={dateInLocal}
         placeholder="Date will display here"
       />
       <ResultRow
-        label={"unix timestamp"}
+        label={"UTC"}
+        className="cleanDate"
+        result={dateInUtc}
+        placeholder="Date will display here"
+      />
+      <ResultRow
+        label={"Unix"}
         className="cleanDate"
         result={unixTimestamp}
         placeholder="Date will display here"
