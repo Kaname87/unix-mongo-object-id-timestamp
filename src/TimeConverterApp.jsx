@@ -6,9 +6,11 @@ import {
   getUnixTimestamp,
   cleanDate,
   cleanDateUtc,
-  timezoneName
+  //   timezoneName
+  getTimezoneName
 } from "./timeUtils";
 import { ResultGroup } from "./components/ResultGroup";
+import { ResultRow } from "./components/ResultRow";
 import { ButtonGroup } from "./components/ButtonGroup";
 import { InputGroup } from "./components/InputGroup";
 import InputText from "./components/Input";
@@ -21,25 +23,6 @@ import {
   timestampFromObjectId,
   formatMongoObjectId
 } from "./mongoObjectIdUtil";
-// export const getInitialState = (currentTime) => ({
-//   unixTimestampInput: '',
-//   humanDateInputValue: '',
-//   inputObjectId: '',
-//   dateInYourTimeZone: '',
-//   dateInUtc: '',
-//   unixTimeStamp: '',
-//   mongoObjectId: '',
-//   humanObejctId: '',
-//   currentTime,
-// })
-
-// const setStateInStorage = (state) => {
-//   window.localStorage.setItem('state', JSON.stringify(state))
-// };
-
-// const getStateFromStorage = () => {
-//   return JSON.parse(window.localStorage.getItem('state'));
-// }
 
 function TimeConverterApp() {
   const VALUE_TYPES = {
@@ -49,7 +32,14 @@ function TimeConverterApp() {
   };
   const initState = {
     inputValue: "",
-    selectedType: VALUE_TYPES.UNIX_TIME
+    selectedType: VALUE_TYPES.UNIX_TIME,
+    localTimeZone: getTimezoneName(),
+    result: {
+      dateLocal: "",
+      dateUtc: "",
+      unixTimestamp: "",
+      objectId: ""
+    }
   };
 
   const [values, setValues] = useState(initState);
@@ -59,28 +49,70 @@ function TimeConverterApp() {
     setValues({ ...values, [name]: value });
   };
 
+  const getTimestamp = (value, type) => {
+    if (!value) {
+      return moment().unix();
+    }
+    switch (type) {
+      case VALUE_TYPES.UNIX_TIME:
+        return value;
+      case VALUE_TYPES.DATE:
+        return getUnixTimestamp(value);
+      case VALUE_TYPES.OBJECT_ID:
+        return timestampFromObjectId(value);
+      default:
+        return null;
+    }
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
-    // const { name, value } = e.target;
-    // setValues({ ...values, [name]: value });
-    console.log(1);
+    const { inputValue, selectedType } = values;
+
+    const unixTimestamp = getTimestamp(inputValue, selectedType);
+    const dateLocal = cleanDate(unixTimestamp);
+    const result = {
+      unixTimestamp,
+      dateLocal
+    };
+    setValues({ ...values, result });
   };
 
   const handleReset = e => {
     e.preventDefault();
     setValues(initState);
-    console.log(2);
   };
 
+  const {
+    inputValue,
+    selectedType,
+    localTimeZone,
+    result: { unixTimestamp, dateLocal }
+  } = values;
   return (
-    <form id="convertDateForm" className="form-inline">
-      <InputText
-        inputValue={values.inputValue}
-        selectedType={values.selectedType}
-        handleInputChange={handleInputChange}
+    <div>
+      <form id="convertDateForm" className="form-inline">
+        <InputText
+          inputValue={inputValue}
+          selectedType={selectedType}
+          handleInputChange={handleInputChange}
+        />
+        <ButtonGroup handleSubmit={handleSubmit} handleReset={handleReset} />
+      </form>
+
+      <ResultRow
+        label={localTimeZone}
+        className="cleanDate"
+        result={dateLocal}
+        placeholder="Date will display here"
       />
-      <ButtonGroup handleSubmit={handleSubmit} handleReset={handleReset} />
-    </form>
+      <ResultRow
+        label={"unix timestamp"}
+        className="cleanDate"
+        result={unixTimestamp}
+        placeholder="Date will display here"
+      />
+    </div>
   );
 }
 
