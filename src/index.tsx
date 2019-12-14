@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './App';
+// import UnixTimestampAppFunctional from './UnixTimestampApp';
+import TimeConverterApp from './TimeConverterApp';
+// import App from './App';
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<TimeConverterApp />, document.getElementById('app'));
