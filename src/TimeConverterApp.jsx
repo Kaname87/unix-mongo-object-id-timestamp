@@ -15,7 +15,7 @@ import InputText from "./components/Input";
 
 import {
   getObjectIdFromDate,
-  getTimestampFromObjectId,
+  getUnixTimestampFromObjectId,
   formatMongoObjectId
 } from "./mongoObjectIdUtil";
 
@@ -58,8 +58,8 @@ function TimeConverterApp() {
       case VALUE_TYPES.DATE:
         return isValidDate(value) ? getUnixTimestamp(value) : false;
       case VALUE_TYPES.OBJECT_ID:
-        const convertedTime = getTimestampFromObjectId(value);
-        return convertedTime > 0 ? convertedTime : false;
+        const convertedTime = getUnixTimestampFromObjectId(value);
+        return isValidDate(convertedTime) ? convertedTime : false;
       default:
         return false;
     }
@@ -69,7 +69,6 @@ function TimeConverterApp() {
 
     const { inputValue, selectedType } = values;
     const unixTimestamp = getTimestamp(inputValue, selectedType);
-
     // Has input and no coverted timestamp is false, then error
     const isInvalidInput = inputValue && unixTimestamp === false;
 
@@ -111,6 +110,7 @@ function TimeConverterApp() {
         <ResultRow label={localTimeZone} result={dateInLocal} />
         <ResultRow label={"UTC"} result={dateInUtc} />
         <ResultRow label={"Unix"} result={unixTimestamp} />
+        <ResultRow label={"ObjectId"} result={objectId} />
         <ResultRow
           label={"Mongo"}
           result={objectId ? formatMongoObjectId(objectId) : ""}

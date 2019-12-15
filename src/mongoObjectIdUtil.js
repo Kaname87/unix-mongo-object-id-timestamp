@@ -14,8 +14,8 @@ export function getObjectIdFromDate(date) {
     return pad.substring(0, pad.length - hexSeconds.length) + hexSeconds + "0000000000000000";
 };
 
-export function getTimestampFromObjectId(objectId) {
-    return new Date(parseInt(objectId.substring(0, 8), 16) * 1000).getTime();
+export function getUnixTimestampFromObjectId(objectId) {
+    return new Date(parseInt(objectId.substring(0, 8), 16) * 1000).getTime() / 1000;
 };
 
 export function formatMongoObjectId(objectId) {
