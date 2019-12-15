@@ -41,7 +41,9 @@ const InputText = ({
             placeholder={setPlaceholder(selectedType)}
           />
           {isInvalidInput ? (
-            <p className="help is-danger">This input is invalid</p>
+            <p className="help is-danger">
+              Invalid value for the selected type
+            </p>
           ) : (
             ""
           )}
