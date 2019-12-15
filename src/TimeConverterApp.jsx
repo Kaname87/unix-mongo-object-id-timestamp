@@ -59,7 +59,8 @@ function TimeConverterApp() {
 
     switch (type) {
       case VALUE_TYPES.UNIX_TIME:
-        return isValidDate(value) ? value : false;
+        // Number and valid date
+        return !isNaN(value) && isValidDate(value) ? value : false;
       case VALUE_TYPES.DATE:
         return isValidDate(value) ? getUnixTimestamp(value) : false;
       case VALUE_TYPES.OBJECT_ID:
@@ -69,6 +70,7 @@ function TimeConverterApp() {
         return false;
     }
   };
+
   const handleSubmit = e => {
     e.preventDefault();
 
@@ -78,10 +80,12 @@ function TimeConverterApp() {
     const isInvalidInput = inputValue && unixTimestamp === false;
 
     const result = {
-      unixTimestamp,
-      dateInLocal: unixTimestamp ? cleanDate(unixTimestamp) : "",
-      dateInUtc: unixTimestamp ? cleanDateUtc(unixTimestamp) : "",
-      objectId: unixTimestamp ? getObjectIdFromDate(getDate(unixTimestamp)) : ""
+      unixTimestamp: isInvalidInput ? "" : unixTimestamp,
+      dateInLocal: isInvalidInput ? "" : cleanDate(unixTimestamp),
+      dateInUtc: isInvalidInput ? "" : cleanDateUtc(unixTimestamp),
+      objectId: isInvalidInput
+        ? ""
+        : getObjectIdFromDate(getDate(unixTimestamp))
     };
     setValues({ ...values, result, isInvalidInput });
   };
