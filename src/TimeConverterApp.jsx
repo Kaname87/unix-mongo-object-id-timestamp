@@ -12,6 +12,7 @@ import {
 import { ResultRow } from "./components/ResultRow";
 import { ButtonGroup } from "./components/ButtonGroup";
 import InputText from "./components/Input";
+import Emoji from "./components/Emoji";
 
 import {
   getObjectIdFromDate,
@@ -95,7 +96,9 @@ function TimeConverterApp() {
   } = values;
   return (
     <div className="section">
-      <h1 className="subtitle">Time Converter</h1>
+      <h1 className="subtitle">
+        <Emoji symbol="🕒" /> Date Time Converter <Emoji symbol="🔄" />
+      </h1>
       <form className="content">
         <InputText
           isInvalidInput={isInvalidInput}
@@ -105,8 +108,7 @@ function TimeConverterApp() {
         />
         <ButtonGroup handleSubmit={handleSubmit} handleReset={handleReset} />
       </form>
-
-      <div className="content is-small">
+      <div className="content">
         <ResultRow label={localTimeZone} result={dateInLocal} />
         <ResultRow label={"UTC"} result={dateInUtc} />
         <ResultRow label={"Unix"} result={unixTimestamp} />
