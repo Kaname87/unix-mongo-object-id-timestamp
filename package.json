@@ -2,19 +2,8 @@
   "name": "unix-mongo-object-id-timestamp",
   "version": "0.1.0",
   "private": true,
-  "content_security_policy": "script-src 'self' 'unsafe-eval' https://ssl.google-analytics.com; object-src 'self'",
   "description": "Convert time value to several format",
-  "manifest_version": 2,
-  "browser_action": {
-    "default_popup": "index.html",
-    "default_name": "Time Converter",
-    "short_name": "Time Converter"
-  },
-  "permissions": [
-    "storage"
-  ],
   "dependencies": {
-    "@babel/preset-react": "^7.7.4",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -32,10 +21,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "build": "INLINE_RUNTIME_CHUNK=false react-scripts build && cp public/manifest.json build/manifest.json",
     "eject": "react-scripts eject",
-    "bundle": "webpack -p",
-    "dev": "webpack -d --watch",
-    "zip": "rm -f public/bundle.map.js && zip -r -X chrome-web-store.zip . -i public\\* -i \"index.html\" -i \"manifest.json\""
+    "zip": "rm -f build/bundle.map.js && zip -r -X chrome-web-store.zip . -i build\\* -i \"index.html\" -i \"manifest.json\""
   },
   "eslintConfig": {
     "extends": "react-app"
