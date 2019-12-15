@@ -20,6 +20,10 @@ import {
   formatMongoObjectId
 } from "./mongoObjectIdUtil";
 
+const sectionStyle = {
+  maxWidth: "500px" // For a demo site
+};
+
 function TimeConverterApp() {
   const VALUE_TYPES = {
     UNIX_TIME: "unixtime",
@@ -95,7 +99,7 @@ function TimeConverterApp() {
     result: { dateInLocal, dateInUtc, unixTimestamp, objectId }
   } = values;
   return (
-    <div className="section">
+    <div className="section" style={sectionStyle}>
       <h1 className="subtitle">
         <Emoji symbol="🕒" /> Date Time Converter <Emoji symbol="🔄" />
       </h1>
