@@ -1,10 +1,5 @@
 import React, { Fragment } from "react";
-
-const VALUE_TYPES = {
-  UNIX_TIME: "unixtime",
-  DATE: "date",
-  OBJECT_ID: "objectid"
-};
+import { VALUE_TYPES } from "../constants";
 
 const InputText = ({
   isInvalidInput,

@@ -16,6 +16,7 @@ import { ButtonGroup } from "./components/ButtonGroup";
 import InputText from "./components/Input";
 import Emoji from "./components/Emoji";
 
+import { VALUE_TYPES } from "./constants";
 import {
   getObjectIdFromDate,
   getUnixTimestampFromObjectId,
@@ -26,25 +27,20 @@ const sectionStyle = {
   maxWidth: "500px" // For a demo site
 };
 
-function TimeConverterApp() {
-  const VALUE_TYPES = {
-    UNIX_TIME: "unixtime",
-    DATE: "date",
-    OBJECT_ID: "objectid"
-  };
-  const initState = {
-    inputValue: "",
-    selectedType: VALUE_TYPES.UNIX_TIME,
-    localTimeZone: getTimezoneName(),
-    isInvalidInput: false,
-    result: {
-      dateInLocal: "",
-      dateInUtc: "",
-      unixTimestamp: "",
-      objectId: ""
-    }
-  };
+const initState = {
+  inputValue: "",
+  selectedType: VALUE_TYPES.UNIX_TIME,
+  localTimeZone: getTimezoneName(),
+  isInvalidInput: false,
+  result: {
+    dateInLocal: "",
+    dateInUtc: "",
+    unixTimestamp: "",
+    objectId: ""
+  }
+};
 
+function TimeConverterApp() {
   const [values, setValues] = useState(initState);
 
   const handleInputChange = e => {
