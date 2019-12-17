@@ -22,7 +22,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "INLINE_RUNTIME_CHUNK=false react-scripts build && cp public/manifest.json build/manifest.json",
+    "build": "INLINE_RUNTIME_CHUNK=false GENERATE_SOURCEMAP=false react-scripts build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "zip": "rm -f build/bundle.map.js && zip -r -X chrome-web-store.zip . -i build\\* -i \"index.html\" -i \"manifest.json\""
   },
