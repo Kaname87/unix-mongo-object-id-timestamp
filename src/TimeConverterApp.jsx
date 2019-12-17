@@ -8,6 +8,11 @@ import {
   getUnixTime
 } from "./timeUtils";
 
+import {
+  getObjectFromLocalStorage,
+  setObjectToLocalStorage
+} from "./utils/storageUtils";
+
 import { ResultRow } from "./components/ResultRow";
 import { ButtonGroup } from "./components/ButtonGroup";
 import InputText from "./components/Input";
@@ -33,12 +38,21 @@ const initState = {
   }
 };
 
+const storageKey = "timeCovnerterState";
+
 function TimeConverterApp() {
-  const [values, setValues] = useState(initState);
+  const [values, setValues] = useState(
+    getObjectFromLocalStorage(storageKey) || initState
+  );
+
+  const setValuesWithStorage = newValues => {
+    setValues(newValues);
+    setObjectToLocalStorage(storageKey, newValues);
+  };
 
   const handleInputChange = e => {
     const { name, value } = e.target;
-    setValues({ ...values, [name]: value });
+    setValuesWithStorage({ ...values, [name]: value });
   };
 
   const handleSubmit = e => {
@@ -55,12 +69,12 @@ function TimeConverterApp() {
       dateInUtc: isInvalidInput ? "" : cleanDateUtc(unixTime),
       objectId: isInvalidInput ? "" : getObjectIdFromDate(getDate(unixTime))
     };
-    setValues({ ...values, result, isInvalidInput });
+    setValuesWithStorage({ ...values, result, isInvalidInput });
   };
 
   const handleReset = e => {
     e.preventDefault();
-    setValues(initState);
+    setValuesWithStorage(initState);
   };
 
   const {
