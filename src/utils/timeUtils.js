@@ -2,7 +2,7 @@ import 'datejs'
 import { determine } from 'jstz'
 import moment from 'moment'
 import { getUnixTimestampFromObjectId } from "./mongoObjectIdUtil";
-import { VALUE_TYPES } from "./constants";
+import { VALUE_TYPES } from "../constants"
 
 const DATE_FORMAT = 'YYYY/MM/DD HH:mm:ss'
 

@@ -6,7 +6,7 @@ import {
   cleanDateUtc,
   getTimezoneName,
   getUnixTime
-} from "./timeUtils";
+} from "./utils/timeUtils";
 
 import {
   getObjectFromLocalStorage,
@@ -19,9 +19,13 @@ import InputText from "./components/Input";
 import Emoji from "./components/Emoji";
 
 import { VALUE_TYPES } from "./constants";
-import { getObjectIdFromDate, formatMongoObjectId } from "./mongoObjectIdUtil";
+import {
+  getObjectIdFromDate,
+  formatMongoObjectId
+} from "./utils/mongoObjectIdUtil";
 
 const sectionStyle = {
+  minWidth: "430px",
   maxWidth: "500px" // For a demo site
 };
 
