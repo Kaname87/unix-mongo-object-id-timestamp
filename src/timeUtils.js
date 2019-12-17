@@ -1,6 +1,8 @@
 import 'datejs'
 import { determine } from 'jstz'
 import moment from 'moment'
+import { getUnixTimestampFromObjectId } from "./mongoObjectIdUtil";
+import { VALUE_TYPES } from "./constants";
 
 const DATE_FORMAT = 'YYYY/MM/DD HH:mm:ss'
 
@@ -26,7 +28,7 @@ export function cleanDateUtc(timestamp) {
   return moment.utc(getDate(timestamp)).format(DATE_FORMAT)
 }
 
-export function getUnixTimestamp(humanDate) {
+export function getUnixTimestampFromDate(humanDate) {
   if(!humanDate) {
     throw new Error('You must provide human date input')
   }
@@ -35,4 +37,22 @@ export function getUnixTimestamp(humanDate) {
     throw new Error('Cannot parse date')
   }
   return parsedDate.getTime() / 1000
+}
+
+export const getUnixTime = (value, type) => {
+  if (!value) {
+    return moment().unix();
+  }
+
+  switch (type) {
+    case VALUE_TYPES.UNIX_TIME:
+      return !isNaN(value) && isValidTimestamp(value) ? value : false;
+    case VALUE_TYPES.DATE:
+      return isValidDate(value) ? getUnixTimestampFromDate(value) : false;
+    case VALUE_TYPES.OBJECT_ID:
+      const convertedTime = getUnixTimestampFromObjectId(value);
+      return isValidDate(convertedTime) ? convertedTime : false;
+    default:
+      return false;
+  }
 }

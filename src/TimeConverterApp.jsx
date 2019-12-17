@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 
-import moment from "moment";
 import {
   getDate,
-  getUnixTimestamp,
   cleanDate,
   cleanDateUtc,
   getTimezoneName,
-  isValidDate,
-  isValidTimestamp
+  getUnixTime
 } from "./timeUtils";
 
 import { ResultRow } from "./components/ResultRow";
@@ -17,11 +14,7 @@ import InputText from "./components/Input";
 import Emoji from "./components/Emoji";
 
 import { VALUE_TYPES } from "./constants";
-import {
-  getObjectIdFromDate,
-  getUnixTimestampFromObjectId,
-  formatMongoObjectId
-} from "./mongoObjectIdUtil";
+import { getObjectIdFromDate, formatMongoObjectId } from "./mongoObjectIdUtil";
 
 const sectionStyle = {
   maxWidth: "500px" // For a demo site
@@ -35,7 +28,7 @@ const initState = {
   result: {
     dateInLocal: "",
     dateInUtc: "",
-    unixTimestamp: "",
+    unixTime: "",
     objectId: ""
   }
 };
@@ -48,39 +41,19 @@ function TimeConverterApp() {
     setValues({ ...values, [name]: value });
   };
 
-  const getTimestamp = (value, type) => {
-    if (!value) {
-      return moment().unix();
-    }
-
-    switch (type) {
-      case VALUE_TYPES.UNIX_TIME:
-        return !isNaN(value) && isValidTimestamp(value) ? value : false;
-      case VALUE_TYPES.DATE:
-        return isValidDate(value) ? getUnixTimestamp(value) : false;
-      case VALUE_TYPES.OBJECT_ID:
-        const convertedTime = getUnixTimestampFromObjectId(value);
-        return isValidDate(convertedTime) ? convertedTime : false;
-      default:
-        return false;
-    }
-  };
-
   const handleSubmit = e => {
     e.preventDefault();
 
     const { inputValue, selectedType } = values;
-    const unixTimestamp = getTimestamp(inputValue, selectedType);
+    const unixTime = getUnixTime(inputValue, selectedType);
     // Has input and no coverted timestamp is false, then error
-    const isInvalidInput = inputValue && unixTimestamp === false;
+    const isInvalidInput = inputValue && unixTime === false;
 
     const result = {
-      unixTimestamp: isInvalidInput ? "" : unixTimestamp,
-      dateInLocal: isInvalidInput ? "" : cleanDate(unixTimestamp),
-      dateInUtc: isInvalidInput ? "" : cleanDateUtc(unixTimestamp),
-      objectId: isInvalidInput
-        ? ""
-        : getObjectIdFromDate(getDate(unixTimestamp))
+      unixTime: isInvalidInput ? "" : unixTime,
+      dateInLocal: isInvalidInput ? "" : cleanDate(unixTime),
+      dateInUtc: isInvalidInput ? "" : cleanDateUtc(unixTime),
+      objectId: isInvalidInput ? "" : getObjectIdFromDate(getDate(unixTime))
     };
     setValues({ ...values, result, isInvalidInput });
   };
@@ -95,7 +68,7 @@ function TimeConverterApp() {
     selectedType,
     localTimeZone,
     isInvalidInput,
-    result: { dateInLocal, dateInUtc, unixTimestamp, objectId }
+    result: { dateInLocal, dateInUtc, unixTime, objectId }
   } = values;
   return (
     <div className="section" style={sectionStyle}>
@@ -114,7 +87,7 @@ function TimeConverterApp() {
       <div className="content">
         <ResultRow label={localTimeZone} result={dateInLocal} />
         <ResultRow label={"UTC"} result={dateInUtc} />
-        <ResultRow label={"Unix"} result={unixTimestamp} />
+        <ResultRow label={"Unix"} result={unixTime} />
         <ResultRow label={"ObjectId"} result={objectId} />
         <ResultRow
           label={"Mongo"}
