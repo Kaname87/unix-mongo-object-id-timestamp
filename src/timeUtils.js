@@ -8,6 +8,10 @@ export const getTimezoneName = () => determine().name()
 
 export const getDate = (timestamp) => new Date(timestamp * 1000)
 
+export const isValidTimestamp = value => getDate(value).getTime() > 0;
+
+export const isValidDate = value => new Date(value).getTime() > 0;
+
 export function cleanDate(timestamp) {
   if(!timestamp) {
     throw new Error('You must provide a timestamp')

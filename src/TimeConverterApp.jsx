@@ -6,7 +6,9 @@ import {
   getUnixTimestamp,
   cleanDate,
   cleanDateUtc,
-  getTimezoneName
+  getTimezoneName,
+  isValidDate,
+  isValidTimestamp
 } from "./timeUtils";
 
 import { ResultRow } from "./components/ResultRow";
@@ -50,8 +52,6 @@ function TimeConverterApp() {
     setValues({ ...values, [name]: value });
   };
 
-  const isValidDate = dateOrTime => new Date(dateOrTime).getTime() > 0;
-
   const getTimestamp = (value, type) => {
     if (!value) {
       return moment().unix();
@@ -59,8 +59,7 @@ function TimeConverterApp() {
 
     switch (type) {
       case VALUE_TYPES.UNIX_TIME:
-        // Number and valid date
-        return !isNaN(value) && isValidDate(value) ? value : false;
+        return !isNaN(value) && isValidTimestamp(value) ? value : false;
       case VALUE_TYPES.DATE:
         return isValidDate(value) ? getUnixTimestamp(value) : false;
       case VALUE_TYPES.OBJECT_ID:
